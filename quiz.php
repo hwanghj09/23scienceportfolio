@@ -24,9 +24,9 @@ function checkAnswerAndUpdateScore($userAnswer, $currentQuestionIndex, $answerFi
     if ($answers && isset($answers[$currentQuestionIndex])) {
         $correctAnswer = $answers[$currentQuestionIndex];
 
-        if (strtolower($userAnswer) === strtolower($correctAnswer)) {
+        if (strtolower($userAnswer) == strtolower($correctAnswer)) {
             $_SESSION['score']++;
-            updateScore($_COOKIE['user_id'], $_SESSION['score']);
+            updateScore(base64_decode($_COOKIE['user_id']), $_SESSION['score']);
         }
     }
 }
