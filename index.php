@@ -152,7 +152,7 @@
     </script>
 </head>
 <body>
-    <h1>Click to Start!</h1>
+    <a href="quiz.php"><h1>Click to Start!</h1></a>
     <div class="sidebar-button">
         <button class="sidebutton" onclick="toggleSidebar()">☰</button>
     </div>
