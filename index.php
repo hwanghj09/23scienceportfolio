@@ -7,6 +7,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            background-color: goldenrod;
         }
 
         .main-content {
@@ -18,75 +19,80 @@
             color: #333;
         }
 
-        #slider-btn {
-            background-color: #333;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        .slider {
-            display: none;
-            position: fixed;
-            top: 0;
-            right: 0;
-            background-color: #f1f1f1;
-            padding: 20px;
-            width: 200px;
-            text-align: right;
-        }
-
-        .slider button {
+        .sidebutton
+        {
             display: block;
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: none;
+            width: 30px;
+            height: 30px;
+            margin-bottom: 45px;
+            text-align: center;
+            color: black;
+            font-size: 16px;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
-        }
-
-        #close-btn {
-            color: red;
-            font-size: 20px;
-            cursor: pointer;
-        }
+            opacity: 0;
+            animation: fadeIn 1.3s ease-in-out forwards;
+            transform: scale(2);
+            transition: transform 0.3s, box-shadow 0.3s;
+          }
+      .sidebutton:hover {
+        transform: scale(2.05);
+        box-shadow: 0 0 1px 2px rgb(0, 0, 0);
+      }
+      
+      .sidebar-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 999;
+      }
+      
+      .sidebar {
+        position: fixed;
+        top: 0;
+        right: -300px;
+        width: 300px;
+        height: 100%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transition: right 0.3s;
+      }
+      
+      .sidebar.open {
+        right: 0;
+      }
+      
+      .sidebar-content {
+        padding: 20px;
+      }
+      
+      @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
     </style>
     <title>Your Website</title>
+    <script>
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('open');
+    }
+  </script>
 </head>
 <body>
-
-    <div class="main-content">
-        <h1>Click to Start!</h1>
-        <button id="slider-btn">&#x2630; Menu</button>
+    <h1>Click to Start!</h1>
+    <div class="sidebar-button">
+      <button class="sidebutton" onclick="toggleSidebar()">≡</button>
     </div>
 
-    <div class="slider">
+    <div class="sidebar">
+      <div class="sidebar-content">
         <button onclick="openPage('login')">Login</button>
         <button onclick="openPage('signup')">Sign Up</button>
         <button onclick="openPage('settings')">Settings</button>
         <button onclick="openPage('ranking')">Ranking</button>
         <button onclick="openPage('delete')">Delete Account</button>
-        <button id="close-btn">&times; Close</button>
+      </div>
     </div>
-
-    <script>
-        document.getElementById('slider-btn').addEventListener('click', function() {
-            document.querySelector('.slider').style.display = 'block';
-        });
-
-        document.getElementById('close-btn').addEventListener('click', function() {
-            document.querySelector('.slider').style.display = 'none';
-        });
-
-        function openPage(page) {
-            // You can add logic to handle different pages here
-            console.log('Opening ' + page + ' page');
-            // For now, let's just close the slider
-            document.querySelector('.slider').style.display = 'none';
-        }
-    </script>
-
 </body>
 </html>
