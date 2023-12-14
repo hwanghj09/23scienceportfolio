@@ -51,10 +51,12 @@
             background-color: #45a049;
         }
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
 
-    <h2>User Login</h2>
+    <h2>Login</h2>
 
     <?php
     // 데이터베이스 연결 정보
@@ -92,10 +94,24 @@
                 header("Location: index.php");
                 exit();
             } else {
-                echo "비밀번호가 일치하지 않습니다.";
+                echo "<script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: '비밀번호가 일치하지 않습니다.',
+                            text: '다시 비밀번호를 입력해주세요.',
+                            confirmButtonText: '확인'
+                        });
+                    </script>";
             }
         } else {
-            echo "사용자가 존재하지 않습니다.";
+            echo "<script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: '존재하지 않는 아이디입니다.',
+                            text: '다른 아이디를 사용해주세요.',
+                            confirmButtonText: '확인'
+                        });
+                    </script>";
         }
     }
 

@@ -5,19 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f0f0f0;
             color: #333;
         }
 
+        h1 {
+            color: #333;
+            cursor: pointer;
+        }
+
         .main-content {
             text-align: center;
             padding: 20px;
-        }
-
-        h1 {
-            color: #333;
         }
 
         .sidebar-button {
@@ -90,9 +95,32 @@
             0% { opacity: 0; }
             100% { opacity: 1; }
         }
+
+        .start-button {
+            padding: 250px;
+            text-align: center;
+            animation: pulse 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
     </style>
-    <title>Your Website</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <title>Main</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
+
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('open');
@@ -101,16 +129,15 @@
         function checkLoginStatus() {
             // 쿠키에서 사용자 아이디 가져오기
             const userIdCookie = getCookie("user_id");
-            
+
             // 버튼 생성
             const sidebarContent = document.querySelector('.sidebar-content');
             sidebarContent.innerHTML = ''; // 기존 내용 초기화
 
             if (userIdCookie) {
                 createButton('Ranking', 'ranking');
-                createButton('Settings', 'settings');
                 createButton('Sign Out', 'signOut');
-                createButton('Delete Account', 'delete');
+                createButton('Delete Account', 'deleteAccount');
             } else {
                 createButton('Login', 'login');
                 createButton('Sign Up', 'register');
@@ -121,23 +148,50 @@
         function createButton(text, action) {
             const button = document.createElement('button');
             button.textContent = text;
-            button.onclick = function() {
-                openPage(action + '.php');
+            button.onclick = function () {
+                if (action === 'deleteAccount') {
+                    confirmDeleteAccount();
+                } else {
+                    openPage(action + '.php');
+                }
             };
             document.querySelector('.sidebar-content').appendChild(button);
         }
 
         function openPage(page) {
-          if(page=='signOut.php')
-          {
-              document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-              document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-              window.onload();
-          }
-          else
-          {
-            document.location.href = page;
-          }
+            if (page == 'signOut.php') {
+                document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                window.onload();
+            } else {
+                document.location.href = page;
+            }
+        }
+
+        function confirmDeleteAccount() {
+            Swal.fire({
+                title: '계정 삭제',
+                text: '정말로 계정을 삭제하시겠습니까?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '예',
+                cancelButtonText: '아니오'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteAccount();
+                }
+            });
+        }
+
+        function deleteAccount() {
+            // 여기에 계정 삭제 로직을 추가하세요.
+            // 예를 들어, 서버에 DELETE 요청을 보내거나 필요한 작업을 수행합니다.
+            // 이 예제에서는 쿠키를 삭제하고 페이지를 새로고침합니다.
+            document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            window.onload();
         }
 
         // 쿠키에서 특정 키의 값을 가져오는 함수
@@ -149,10 +203,31 @@
 
         // 페이지 로드 시 로그인 상태 확인
         window.onload = checkLoginStatus;
+
+        // 퀴즈 시작 함수
+        function startQuiz() {
+            const userIdCookie = getCookie("user_id");
+
+            if (!userIdCookie) {
+                // SweetAlert2을 사용하여 더 이쁘게 표현
+                Swal.fire({
+                    icon: 'error',
+                    title: '로그인 필요',
+                    text: '로그인 후 퀴즈를 시작할 수 있습니다.',
+                    confirmButtonText: '확인',
+                }).then(() => {
+                    openPage('login.php');
+                });
+            } else {
+                // 로그인 상태일 때 퀴즈 페이지로 이동
+                openPage('quiz.php');
+            }
+        }
+
     </script>
 </head>
 <body>
-    <a href="quiz.php"><h1>Click to Start!</h1></a>
+    <div class="start-button" onclick="startQuiz()"><h1>Click to Start!</h1></div>
     <div class="sidebar-button">
         <button class="sidebutton" onclick="toggleSidebar()">☰</button>
     </div>
