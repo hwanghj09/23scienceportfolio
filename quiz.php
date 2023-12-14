@@ -4,7 +4,6 @@ session_start();
 $quizFilePath = 'quiz.txt';
 $answerFilePath = 'answer.txt';
 
-// Function to get a random question
 function getRandomQuestion($quizFilePath, $answerFilePath) {
     $quizzes = file($quizFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     $answers = file($answerFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -19,7 +18,6 @@ function getRandomQuestion($quizFilePath, $answerFilePath) {
     return null;
 }
 
-// Function to check the submitted answer and update the score in the database
 function checkAnswerAndUpdateScore($userAnswer, $currentQuestionIndex, $answerFilePath) {
     $answers = file($answerFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
@@ -60,27 +58,6 @@ function updateScore($userId, $score) {
     $conn->close();
 }
 
-// Initialize session if not already done
-if (!isset($_SESSION['initialized'])) {
-    $_SESSION['initialized'] = true;
-
-    // 여기서 데이터베이스에서 사용자의 현재 점수를 가져와 세션에 저장
-    $userId = $_COOKIE['user_id'];
-    $_SESSION['score'] = getCurrentScore($userId);
-}
-
-// Check if the user submitted an answer
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_answer'])) {
-    $userAnswer = $_POST['user_answer'];
-    $currentQuestionIndex = $_SESSION['current_question_index'];
-
-    // Check the answer and update the score
-    checkAnswerAndUpdateScore($userAnswer, $currentQuestionIndex, $answerFilePath);
-}
-
-// Get a random question for display
-$randomQuestion = getRandomQuestion($quizFilePath, $answerFilePath);
-
 // Function to get the current score from the database
 function getCurrentScore($userId) {
     // Replace these values with your actual database credentials
@@ -111,8 +88,23 @@ function getCurrentScore($userId) {
 
     return $score;
 }
-?>
 
+// Initialize session if not already done
+if (!isset($_SESSION['initialized'])) {
+    $_SESSION['initialized'] = true;
+    $userId = $_COOKIE['user_id'];
+    $_SESSION['score'] = getCurrentScore($userId);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_answer'])) {
+    $userAnswer = $_POST['user_answer'];
+    $currentQuestionIndex = $_SESSION['current_question_index'];
+    checkAnswerAndUpdateScore($userAnswer, $currentQuestionIndex, $answerFilePath);
+}
+
+$randomQuestion = getRandomQuestion($quizFilePath, $answerFilePath);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,8 +179,11 @@ function getCurrentScore($userId) {
         }
     </style>
     <title>퀴즈 페이지</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <div class="quiz-container">
         <h1>퀴즈 타임!</h1>
 
@@ -219,6 +214,7 @@ function getCurrentScore($userId) {
         document.querySelector('form').addEventListener('submit', function () {
             location.href = 'index.php';
         });
+        
     </script>
 </body>
 </html>

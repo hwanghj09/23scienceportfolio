@@ -1,5 +1,51 @@
-Paris
-7
-William Shakespeare
-Blue Whale
+원소
+118
+Y
+불꽃 반응
+빨간색
+노란색
+보라색
+청록색
+주황색
+빨간색
+청록색
+Y
+스펙트럼
+선 스펙트럼
+원자
+전자
+원자핵 전자
+분자
+N
+6
+원소 기호
+H
+He
+Li
+C
+N
+O
+Na
+Al
+Si
+P
+S
+Cl
+K
+Ca
+Fe
+Cu
+Ag
 Au
+분자식
+HCL
+CO
++
+-
+음이온
+양이온
+이온
+이온식
+Y
+앙금 생성 반응
+앙금

@@ -186,9 +186,6 @@
         }
 
         function deleteAccount() {
-            // 여기에 계정 삭제 로직을 추가하세요.
-            // 예를 들어, 서버에 DELETE 요청을 보내거나 필요한 작업을 수행합니다.
-            // 이 예제에서는 쿠키를 삭제하고 페이지를 새로고침합니다.
             document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             window.onload();
