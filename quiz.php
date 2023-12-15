@@ -1,10 +1,13 @@
 <?php
 session_start();
+error_reporting( E_ALL );
+ini_set( "display_errors", 1 );
 
 $quizFilePath = 'quiz.txt';
 $answerFilePath = 'answer.txt';
-$userId = $_COOKIE['user_id'];
+$userId = base64_decode($_COOKIE['user_id']);
 $_SESSION['score'] = getCurrentScore($userId);
+
 function getRandomQuestion($quizFilePath, $answerFilePath) {
     $quizzes = file($quizFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     $answers = file($answerFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -83,7 +86,7 @@ function getCurrentScore($userId) {
     $stmt->execute();
     $stmt->bind_result($score);
     $stmt->fetch();
-    echo $score;
+    
     // Close the statement and connection
     $stmt->close();
     $conn->close();

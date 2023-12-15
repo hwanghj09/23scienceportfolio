@@ -45,12 +45,12 @@
             cursor: pointer;
             opacity: 0;
             animation: fadeIn 1.3s ease-in-out forwards;
-            transform: scale(2);
+            transform: scale(1.5); /* 변경된 부분 */
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .sidebutton:hover {
-            transform: scale(2.05);
+            transform: scale(1.6); /* 변경된 부분 */
             box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 

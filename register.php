@@ -43,7 +43,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($insert_query->execute()) {
             // SweetAlert2를 사용하여 스마트 알람 표시
-            echo "<script>location.href = 'login.php';
+            echo "<script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: '회원가입 성공',
+                        text: '로그인 페이지로 이동합니다.',
+                        confirmButtonText: '확인'
+                    }).then(() => {
+                        location.href = 'login.php';
+                    });
                 </script>";
         } else {
             echo "Error: " . $insert_query . "<br>" . $conn->error;
@@ -127,6 +135,7 @@ $conn->close();
         <input type="password" id="password" name="password" required>
 
         <input type="submit" value="Sign Up">
+        <a href="login.php">login</a>
     </form>
 
 </body>
