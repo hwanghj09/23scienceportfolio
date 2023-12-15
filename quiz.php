@@ -3,7 +3,8 @@ session_start();
 
 $quizFilePath = 'quiz.txt';
 $answerFilePath = 'answer.txt';
-
+$userId = $_COOKIE['user_id'];
+$_SESSION['score'] = getCurrentScore($userId);
 function getRandomQuestion($quizFilePath, $answerFilePath) {
     $quizzes = file($quizFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     $answers = file($answerFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -76,12 +77,13 @@ function getCurrentScore($userId) {
 
     // Prepare and execute the SQL query to get the current score
     $sql = "SELECT score FROM users WHERE id = ?";
+
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $stmt->bind_result($score);
     $stmt->fetch();
-
+    echo $score;
     // Close the statement and connection
     $stmt->close();
     $conn->close();
@@ -92,8 +94,6 @@ function getCurrentScore($userId) {
 // Initialize session if not already done
 if (!isset($_SESSION['initialized'])) {
     $_SESSION['initialized'] = true;
-    $userId = $_COOKIE['user_id'];
-    $_SESSION['score'] = getCurrentScore($userId);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_answer'])) {
