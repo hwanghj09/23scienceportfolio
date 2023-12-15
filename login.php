@@ -132,7 +132,7 @@ $conn->close();
         <input type="password" id="password" name="password" required>
 
         <input type="submit" value="Login">
-<a href="resiger.php">회원가입하기</a>
+<a href="register.php">회원가입하기</a>
     </form>
 
 </body>
