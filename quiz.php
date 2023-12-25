@@ -3,8 +3,8 @@ session_start();
 error_reporting( E_ALL );
 ini_set( "display_errors", 1 );
 
-$quizFilePath = 'quiz.txt';
-$answerFilePath = 'answer.txt';
+$quizFilePath = 'quiztxt/quiz.txt';
+$answerFilePath = 'quiztxt/answer.txt';
 $userId = base64_decode($_COOKIE['user_id']);
 $_SESSION['score'] = getCurrentScore($userId);
 

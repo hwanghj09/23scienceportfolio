@@ -1,147 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-body {
-    background-position: center center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
-}
+        body {
+            background-position: center center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
 
-h1 {
-    color: #333;
-    cursor: pointer;
-}
+        h1 {
+            color: #333;
+            cursor: pointer;
+        }
 
-.main-content {
-    text-align: center;
-    padding: 20px;
-}
+        .main-content {
+            text-align: center;
+            padding: 20px;
+        }
 
-.sidebar-button {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 999;
-}
+        .sidebar-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+        }
 
-.sidebutton {
-    display: block;
-    width: 30px;
-    height: 30px;
-    margin-bottom: 45px;
-    text-align: center;
-    color: #333;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    opacity: 0;
-    animation: fadeIn 1.3s ease-in-out forwards;
-    transform: scale(1.5);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
+        .sidebutton {
+            display: block;
+            width: 30px;
+            height: 30px;
+            margin-bottom: 45px;
+            text-align: center;
+            color: #333;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 1.3s ease-in-out forwards;
+            transform: scale(1.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
 
-.sidebutton:hover {
-    transform: scale(1.6);
-    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.1);
-}
+        .sidebutton:hover {
+            transform: scale(1.6);
+            box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
 
-.sidebar {
-    position: fixed;
-    top: 0;
-    right: -300px;
-    width: 300px;
-    height: 100%;
-    background-color: #333;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: right 0.3s;
-}
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s;
+        }
 
-.sidebar.open {
-    right: 0;
-}
+        .sidebar.open {
+            right: 0;
+        }
 
-.sidebar-content {
-    padding: 20px;
-    color: #fff;
-    font-size: 18px;  
-}
+        .sidebar-content {
+            padding: 20px;
+            color: #fff;
+            font-size: 18px;
+        }
 
-.sidebar-content button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.3s;
-}
+        .sidebar-content button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-.sidebar-content button:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
+        .sidebar-content button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
 
-@keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
 
-.start-button {
-    padding: 10px;
-    text-align: center;
-    animation: pulse 2s infinite;
-    cursor: pointer;
-}
+            100% {
+                opacity: 1;
+            }
+        }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.5);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
+        .start-button {
+            padding: 10px;
+            text-align: center;
+            animation: pulse 2s infinite;
+            cursor: pointer;
+        }
 
-/* Mobile Styles */
-@media only screen and (max-width: 600px) {
-    .sidebar {
-        width: 100%;
-        right: -100%;
-    }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
 
-    .sidebar.open {
-        right: 0;
-    }
+            50% {
+                transform: scale(1.5);
+            }
 
-    .start-button {
-        padding: 50px;
-    }
+            100% {
+                transform: scale(1);
+            }
+        }
 
-    .sidebutton {
-        margin-bottom: 20px;
-    }
-}
+        /* Mobile Styles */
+        @media only screen and (max-width: 600px) {
+            .sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .sidebar.open {
+                right: 0;
+            }
+
+            .start-button {
+                padding: 50px;
+            }
+
+            .sidebutton {
+                margin-bottom: 20px;
+            }
+        }
 
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
     <title>Main</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
-
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('open');
@@ -159,10 +166,12 @@ h1 {
                 createButton('Ranking', 'ranking');
                 createButton('Sign Out', 'signOut');
                 createButton('Delete Account', 'deleteAccount');
+                createButton('Experiment', 'experiment');
             } else {
                 createButton('Login', 'login');
                 createButton('Sign Up', 'register');
                 createButton('Ranking', 'ranking');
+                createButton('Experiment', 'experiment');
             }
         }
 
@@ -172,6 +181,9 @@ h1 {
             button.onclick = function () {
                 if (action === 'deleteAccount') {
                     confirmDeleteAccount();
+                }else if (action==='experiment')
+                {
+                    window.open('https://hwanghj09.github.io',target="_blank")
                 } else {
                     openPage(action + '.php');
                 }
@@ -242,10 +254,25 @@ h1 {
             }
         }
 
+        function checkUsername() {
+            // Make an AJAX request to check_cookie.php
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText); // Display the result using an alert (you can modify this part)
+                }
+            };
+            xhr.open("GET", "check_cookie.php", true);
+            xhr.send();
+        }
+
     </script>
 </head>
+
 <body>
-<div class="start-button" onclick="startQuiz()"><h1>Click to Start!</h1></div>
+    <div class="start-button" onclick="startQuiz()">
+        <h1>Click to Start!</h1>
+    </div>
     <div class="sidebar-button">
         <button class="sidebutton" onclick="toggleSidebar()">☰</button>
     </div>
@@ -255,7 +282,7 @@ h1 {
         </div>
     </div>
     <script>
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             // Check if the clicked element is not the start button or sidebar button
             if (!event.target.closest('.start-button') && !event.target.closest('.sidebar-button')) {
                 createCookieImage(event.clientX, event.clientY);
@@ -264,7 +291,7 @@ h1 {
 
         function createCookieImage(x, y) {
             const cookieImage = document.createElement('img');
-            cookieImage.src = 'cookie.jpg'; // Replace with the actual path
+            cookieImage.src = 'img/cookie.jpg'; // Replace with the actual path
             cookieImage.style.position = 'absolute';
             cookieImage.style.width = '50px'; // Set the width as needed
             cookieImage.style.height = '50px'; // Set the height as needed
@@ -275,4 +302,5 @@ h1 {
         }
     </script>
 </body>
+
 </html>

@@ -33,7 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     title: '이미 사용 중인 아이디입니다.',
                     text: '다른 아이디를 사용해주세요.',
                     confirmButtonText: '확인'
-                });
+                }).then(() => {
+                    location.href = 'register.php';
+                });;
             </script>";
     } else {
         // 아이디가 중복되지 않으면 회원가입 정보를 데이터베이스에 저장
