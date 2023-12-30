@@ -24,7 +24,10 @@ $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 // Fetch announcement details based on ID
 if (isset($_GET['id'])) {
     $announcementId = $_GET['id'];
-    $sql = "SELECT * FROM announcements WHERE id = $announcementId";
+    $sql = "SELECT announcements.*, users.username
+            FROM announcements
+            INNER JOIN users ON announcements.user_id = users.id
+            WHERE announcements.id = $announcementId";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -32,19 +35,20 @@ if (isset($_GET['id'])) {
         $title = $row["title"];
         $content = $row["content"];
         $createdAt = $row["created_at"];
-
-        // Check if the user is an admin to show the delete button
+        $username = $row["username"];
         $deleteButton = $isAdmin ? '<button onclick="deleteAnnouncement(' . $announcementId . ')">삭제하기</button>' : '';
     } else {
         $title = "Not Found";
         $content = "The announcement with ID $announcementId was not found.";
         $createdAt = "";
+        $username = "";
         $deleteButton = '';
     }
 } else {
     $title = "Not Found";
     $content = "No announcement ID specified.";
     $createdAt = "";
+    $username = "";
     $deleteButton = '';
 }
 ?>
@@ -53,7 +57,7 @@ if (isset($_GET['id'])) {
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?> - Planet: Mango</title>
@@ -148,18 +152,12 @@ if (isset($_GET['id'])) {
             </a>
         </div>
     </header>
-
-    <div class="container">
-        <div class="card">
-            <div class="content-section">
-                <div class="announcement">
-                    <h2><?= $title ?></h2>
-                    <p><?= $content ?></p>
-                    <p>올라간 날짜: <?= $createdAt ?></p>
-                    <?= $deleteButton ?>
-                </div>
-            </div>
-        </div>
+    <div class="announcement">
+        <h2><?= $title ?></h2>
+        <p><?= $content ?></p>
+        <p>올라간 날짜: <?= $createdAt ?></p>
+        <p>작성자: <?= $username ?></p>
+        <?= $deleteButton ?>
     </div>
 </body>
 
