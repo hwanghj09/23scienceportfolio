@@ -1,304 +1,232 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+$dbHost = 'svc.sel4.cloudtype.app:32632';
+$dbUser = 'root';
+$dbPassword = 'qwaszx77^^';
+$dbName = 'nagwon';
+
+// Create connection
+$conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Start the session
+session_start();
+
+// Check if the user is logged in
+$isLoggedIn = isset($_SESSION['username']);
+
+// Fetch announcements from the database
+$sql = "SELECT * FROM announcements ORDER BY created_at DESC";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planet: Mango</title>
+    <link rel="icon" href="https://i.ibb.co/FgydS5v/mango-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&family=Jua&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <style>
         body {
-            background-position: center center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            font-family: 'Comfortaa', 'Jua', cursive;
+            font-weight: 600;
+            color: white;
+            background-color: #1a1a1a;
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        h1 {
-            color: #333;
-            cursor: pointer;
-        }
-
-        .main-content {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .sidebar-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 999;
-        }
-
-        .sidebutton {
-            display: block;
-            width: 30px;
-            height: 30px;
-            margin-bottom: 45px;
-            text-align: center;
-            color: #333;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            opacity: 0;
-            animation: fadeIn 1.3s ease-in-out forwards;
-            transform: scale(1.5);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .sidebutton:hover {
-            transform: scale(1.6);
-            box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 300px;
-            height: 100%;
+        header {
             background-color: #333;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: right 0.3s;
-        }
-
-        .sidebar.open {
-            right: 0;
-        }
-
-        .sidebar-content {
-            padding: 20px;
-            color: #fff;
-            font-size: 18px;
-        }
-
-        .sidebar-content button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: none;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .sidebar-content button:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .start-button {
-            padding: 10px;
+            padding: 1rem;
             text-align: center;
-            animation: pulse 2s infinite;
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 0 15px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: #2c2c2c;
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* New styles for content sections */
+        .content-section {
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #555;
+            border-radius: 10px;
+        }
+
+        .announcement {
             cursor: pointer;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease-in-out;
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.5);
-            }
-
-            100% {
-                transform: scale(1);
-            }
+        .announcement:hover {
+            background-color: #444;
         }
 
-        /* Mobile Styles */
-        @media only screen and (max-width: 600px) {
-            .sidebar {
-                width: 100%;
-                right: -100%;
-            }
-
-            .sidebar.open {
-                right: 0;
-            }
-
-            .start-button {
-                padding: 50px;
-            }
-
-            .sidebutton {
-                margin-bottom: 20px;
-            }
+        .announcement h3 {
+            margin-bottom: 0;
         }
 
+        /* Added styles for the button */
+        #addAnnouncementBtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
-    <title>Main</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('open');
-        }
-
-        function checkLoginStatus() {
-            // 쿠키에서 사용자 아이디 가져오기
-            const userIdCookie = getCookie("user_id");
-
-            // 버튼 생성
-            const sidebarContent = document.querySelector('.sidebar-content');
-            sidebarContent.innerHTML = ''; // 기존 내용 초기화
-
-            if (userIdCookie) {
-                createButton('Ranking', 'ranking');
-                createButton('Sign Out', 'signOut');
-                createButton('Delete Account', 'deleteAccount');
-                createButton('Experiment', 'experiment');
-            } else {
-                createButton('Login', 'login');
-                createButton('Sign Up', 'register');
-                createButton('Ranking', 'ranking');
-                createButton('Experiment', 'experiment');
-            }
-        }
-
-        function createButton(text, action) {
-            const button = document.createElement('button');
-            button.textContent = text;
-            button.onclick = function () {
-                if (action === 'deleteAccount') {
-                    confirmDeleteAccount();
-                }else if (action==='experiment')
-                {
-                    window.open('https://hwanghj09.github.io',target="_blank")
-                } else {
-                    openPage(action + '.php');
-                }
-            };
-            document.querySelector('.sidebar-content').appendChild(button);
-        }
-
-        function openPage(page) {
-            if (page == 'signOut.php') {
-                document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                window.onload();
-            } else {
-                document.location.href = page;
-            }
-        }
-
-        function confirmDeleteAccount() {
-            Swal.fire({
-                title: '계정 삭제',
-                text: '정말로 계정을 삭제하시겠습니까?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '예',
-                cancelButtonText: '아니오'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    deleteAccount();
-                }
-            });
-        }
-
-        function deleteAccount() {
-            document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            window.onload();
-        }
-
-        // 쿠키에서 특정 키의 값을 가져오는 함수
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-        }
-
-        // 페이지 로드 시 로그인 상태 확인
-        window.onload = checkLoginStatus;
-
-        // 퀴즈 시작 함수
-        function startQuiz() {
-            const userIdCookie = getCookie("user_id");
-
-            if (!userIdCookie) {
-                // SweetAlert2을 사용하여 더 이쁘게 표현
-                Swal.fire({
-                    icon: 'error',
-                    title: '로그인 필요',
-                    text: '로그인 후 퀴즈를 시작할 수 있습니다.',
-                    confirmButtonText: '확인',
-                }).then(() => {
-                    openPage('login.php');
-                });
-            } else {
-                // 로그인 상태일 때 퀴즈 페이지로 이동
-                openPage('quiz.php');
-            }
-        }
-
-        function checkUsername() {
-            // Make an AJAX request to check_cookie.php
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert(xhr.responseText); // Display the result using an alert (you can modify this part)
-                }
-            };
-            xhr.open("GET", "check_cookie.php", true);
-            xhr.send();
-        }
-
-    </script>
 </head>
 
 <body>
-    <div class="start-button" onclick="startQuiz()">
-        <h1>Click to Start!</h1>
-    </div>
-    <div class="sidebar-button">
-        <button class="sidebutton" onclick="toggleSidebar()">☰</button>
-    </div>
-
-    <div class="sidebar">
-        <div class="sidebar-content">
+    <header>
+        <div class="logo">
+            <a href="index.php">
+                <h1>엄청난!</h1>
+            </a>
         </div>
+    </header>
+
+    <nav>
+        <a onclick="showNotice()">공지사항</a>
+        <a onclick="showStudy()">Study</a>
+        <a onclick="showPlay()">Play</a>
+
+        <!-- 로그인 및 회원가입 버튼 -->
+        <?php
+        if ($isLoggedIn) {
+            echo '<a href="logout.php">로그아웃</a>';
+        } else {
+            echo '<a onclick="redirectToLogin()">로그인</a>';
+            echo '<a onclick="redirectToSignup()">회원가입</a>';
+        }
+        ?>
+
+        <a href="http://xn--s39aj90b0nb2xw6xh.kr/">시간표</a>
+
+        <!-- 공지 작성 버튼 -->
+        <?php
+        // Check if the user is an admin
+        if ($isLoggedIn && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
+            echo '<a id="addAnnouncementBtn" onclick="addAnnouncement()">공지 작성</a>';
+        }
+        ?>
+    </nav>
+    <div id="noticeSection" class="content-section">
+        <?php
+        while ($row = $result->fetch_assoc()) {
+            echo '<div class="card announcement" onclick="readAnnouncement(' . $row['id'] . ')">';
+            echo '<h3>' . $row['title'] . '</h3>';
+            echo '</div>';
+        }
+        ?>
     </div>
+    <div id="studySection" class="content-section" style="display: none;">
+        <h2>Study</h2>
+        <p></p>
+    </div>
+
+    <div id="playSection" class="content-section" style="display: none;">
+        <h2>Play</h2>
+        <p></p>
+    </div>
+
     <script>
-        document.addEventListener('click', function (event) {
-            // Check if the clicked element is not the start button or sidebar button
-            if (!event.target.closest('.start-button') && !event.target.closest('.sidebar-button')) {
-                createCookieImage(event.clientX, event.clientY);
-            }
-        });
+        function showNotice() {
+            document.getElementById('noticeSection').style.display = 'block';
+            document.getElementById('studySection').style.display = 'none';
+            document.getElementById('playSection').style.display = 'none';
+        }
 
-        function createCookieImage(x, y) {
-            const cookieImage = document.createElement('img');
-            cookieImage.src = 'img/cookie.jpg'; // Replace with the actual path
-            cookieImage.style.position = 'absolute';
-            cookieImage.style.width = '50px'; // Set the width as needed
-            cookieImage.style.height = '50px'; // Set the height as needed
-            cookieImage.style.left = x + 'px';
-            cookieImage.style.top = y + 'px';
+        function showStudy() {
+            document.getElementById('studySection').style.display = 'block';
+            document.getElementById('noticeSection').style.display = 'none';
+            document.getElementById('playSection').style.display = 'none';
+        }
 
-            document.body.appendChild(cookieImage);
+        function showPlay() {
+            document.getElementById('playSection').style.display = 'block';
+            document.getElementById('noticeSection').style.display = 'none';
+            document.getElementById('studySection').style.display = 'none';
+        }
+
+        function readAnnouncement(id) {
+            window.location.href = 'read.php?id=' + id;
+        }
+
+        // Function to add announcement
+        function addAnnouncement() {
+            window.location.href = 'announcements_write.php';
+        }
+        function addAnnouncement() {
+        window.location.href = 'announcements_write.php';
+        }
+
+        // Function to redirect to login page
+        function redirectToLogin() {
+            window.location.href = 'login.php';
+        }
+
+        // Function to redirect to signup page
+        function redirectToSignup() {
+            window.location.href = 'signup.php';
         }
     </script>
 </body>
