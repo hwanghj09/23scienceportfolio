@@ -55,7 +55,7 @@ if (isset($_GET['id'])) {
             $rowUser = $resultUser->fetch_assoc();
             $username = $rowUser["user_name"];
         } else {
-            $username = "알 수 없음";
+            $username = "???";
         }
 
         $deleteButton = $isAdmin ? '<button onclick="deleteAnnouncement(' . $announcementId . ')">삭제하기</button>' : '';
