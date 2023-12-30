@@ -53,7 +53,64 @@ if (isset($_GET['id'])) {
 <html lang="en">
 
 <head>
-    <!-- (이하 생략) -->
+<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $title ?> - Planet: Mango</title>
+    <link rel="icon" href="https://i.ibb.co/FgydS5v/mango-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&family=Jua&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Comfortaa', 'Jua', cursive;
+            font-weight: 600;
+            color: white;
+            background-color: #1a1a1a;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #333;
+            padding: 1rem;
+            text-align: center;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: #2c2c2c;
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-section {
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #555;
+            border-radius: 10px;
+        }
+
+        .announcement h3 {
+            margin-bottom: 10px;
+        }
+
+        .announcement p {
+            color: #ccc;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         function deleteAnnouncement(announcementId) {
