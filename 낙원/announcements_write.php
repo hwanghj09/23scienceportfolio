@@ -16,14 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
+
     $username = $_SESSION['username'];
+
     // Get data from the form
     $title = $_POST['title'];
     $content = $_POST['content'];
 
     // Insert announcement into the database
     $sql = "INSERT INTO announcements (title, content, user_name) VALUES ('$title', '$content', '$username')";
-    $result = $conn->query($sql);
 
     if ($conn->query($sql) === TRUE) {
         // Redirect to index.html after successful submission

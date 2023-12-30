@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Database connection for quiz database (user information)
+// 퀴즈 데이터베이스 (사용자 정보)에 대한 데이터베이스 연결
 $dbHostQuiz = 'svc.sel4.cloudtype.app:32632';
 $dbUserQuiz = 'root';
 $dbPasswordQuiz = 'qwaszx77^^';
@@ -14,7 +14,7 @@ if ($connQuiz->connect_error) {
     die("Connection failed: " . $connQuiz->connect_error);
 }
 
-// Database connection for announcements_db database (announcement content)
+// 공지사항 데이터베이스 (공지 내용)에 대한 데이터베이스 연결
 $dbHostAnnouncements = 'svc.sel4.cloudtype.app:32632';
 $dbUserAnnouncements = 'root';
 $dbPasswordAnnouncements = 'qwaszx77^^';
@@ -26,18 +26,18 @@ if ($connAnnouncements->connect_error) {
     die("Connection failed: " . $connAnnouncements->connect_error);
 }
 
-// Start the session
+// 세션 시작
 session_start();
 
-// Check if the user is an admin
+// 사용자가 관리자인지 확인
 $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 
-// Fetch announcement details based on ID
-if (isset($_GET['username'])) {
-    $announcementId = $_GET['username'];
+// ID를 기반으로 공지사항 세부 정보 가져오기
+if (isset($_GET['id'])) {
+    $announcementId = $_GET['id'];
 
-    // Fetch announcement content from the announcements_db database
-    $sql = "SELECT * FROM announcements WHERE username = $announcementId";
+    // 공지사항 내용을 공지사항 데이터베이스에서 가져오기
+    $sql = "SELECT * FROM announcements WHERE username = '$announcementId'";
     $result = $connAnnouncements->query($sql);
 
     if ($result->num_rows > 0) {
@@ -46,29 +46,29 @@ if (isset($_GET['username'])) {
         $content = $row["content"];
         $createdAt = $row["created_at"];
 
-        // Fetch user information from the quiz database
+        // 퀴즈 데이터베이스에서 사용자 정보 가져오기
         $username = $row["user_name"];
-        $sqlUser = "SELECT * FROM users WHERE username = $username";
+        $sqlUser = "SELECT * FROM users WHERE username = '$username'";
         $resultUser = $connQuiz->query($sqlUser);
 
         if ($resultUser->num_rows > 0) {
             $rowUser = $resultUser->fetch_assoc();
             $username = $rowUser["user_name"];
         } else {
-            $username = "Unknown";
+            $username = "알 수 없음";
         }
 
         $deleteButton = $isAdmin ? '<button onclick="deleteAnnouncement(' . $announcementId . ')">삭제하기</button>' : '';
     } else {
-        $title = "Not Found";
-        $content = "The announcement with ID $announcementId was not found.";
+        $title = "찾을 수 없음";
+        $content = "ID가 $announcementId인 공지사항을 찾을 수 없습니다.";
         $createdAt = "";
         $username = "";
         $deleteButton = '';
     }
 } else {
-    $title = "Not Found";
-    $content = "No announcement ID specified.";
+    $title = "찾을 수 없음";
+    $content = "공지사항 ID가 지정되지 않았습니다.";
     $createdAt = "";
     $username = "";
     $deleteButton = '';
@@ -150,11 +150,11 @@ if (isset($_GET['username'])) {
                 confirmButtonText: '삭제하기'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Send AJAX request to delete the announcement
+                    // 공지사항 삭제를 위한 AJAX 요청 보내기
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState == 4 && xhr.status == 200) {
-                            // Redirect to the main page after deletion
+                            // 삭제 후 메인 페이지로 리디렉션
                             window.location.href = 'index.php';
                         }
                     };
