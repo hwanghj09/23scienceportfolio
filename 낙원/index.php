@@ -17,6 +17,9 @@ if ($conn->connect_error) {
 // Start the session
 session_start();
 
+// Check if the user is logged in
+$isLoggedIn = isset($_SESSION['username']);
+
 // Fetch announcements from the database
 $sql = "SELECT * FROM announcements ORDER BY created_at DESC";
 $result = $conn->query($sql);
@@ -145,18 +148,26 @@ $result = $conn->query($sql);
         <a onclick="showNotice()">공지사항</a>
         <a onclick="showStudy()">Study</a>
         <a onclick="showPlay()">Play</a>
-        <a onclick="redirectToLogin()">로그인</a>
-        <a onclick="redirectToSignup()">회원가입</a>
+
+        <!-- 로그인 및 회원가입 버튼 -->
+        <?php
+        if ($isLoggedIn) {
+            echo '<a href="logout.php">로그아웃</a>';
+        } else {
+            echo '<a onclick="redirectToLogin()">로그인</a>';
+            echo '<a onclick="redirectToSignup()">회원가입</a>';
+        }
+        ?>
+
         <a href="http://xn--s39aj90b0nb2xw6xh.kr/">시간표</a>
 
         <!-- 공지 작성 버튼 -->
         <?php
         // Check if the user is an admin
-        if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
+        if ($isLoggedIn && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
             echo '<a id="addAnnouncementBtn" onclick="addAnnouncement()">공지 작성</a>';
         }
         ?>
-        
     </nav>
     <div id="noticeSection" class="content-section">
         <?php

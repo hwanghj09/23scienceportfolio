@@ -68,12 +68,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planet: Mango - 로그인</title>
+    <link rel="icon" href="https://i.ibb.co/FgydS5v/mango-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&family=Jua&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Comfortaa', 'Jua', cursive;
+            font-weight: 600;
+            color: white;
+            background-color: #1a1a1a;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -81,30 +88,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         form {
-            background-color: #fff;
+            background-color: #333;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             text-align: center;
         }
 
         h2 {
-            color: #333;
+            color: #fff;
         }
 
         label {
             display: block;
             margin: 10px 0 5px;
-            color: #555;
+            color: #bbb;
         }
 
         input {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #555;
             border-radius: 5px;
             box-sizing: border-box;
+            background-color: #444;
+            color: white;
         }
 
         button {
