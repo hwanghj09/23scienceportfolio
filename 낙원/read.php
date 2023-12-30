@@ -2,18 +2,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// 퀴즈 데이터베이스 (사용자 정보)에 대한 데이터베이스 연결
-$dbHostQuiz = 'svc.sel4.cloudtype.app:32632';
-$dbUserQuiz = 'root';
-$dbPasswordQuiz = 'qwaszx77^^';
-$dbNameQuiz = 'quiz';
-
-$connQuiz = new mysqli($dbHostQuiz, $dbUserQuiz, $dbPasswordQuiz, $dbNameQuiz);
-
-if ($connQuiz->connect_error) {
-    die("Connection failed: " . $connQuiz->connect_error);
-}
-
 // 공지사항 데이터베이스 (공지 내용)에 대한 데이터베이스 연결
 $dbHostAnnouncements = 'svc.sel4.cloudtype.app:32632';
 $dbUserAnnouncements = 'root';
@@ -45,18 +33,7 @@ if (isset($_GET['id'])) {
         $title = $row["title"];
         $content = $row["content"];
         $createdAt = $row["created_at"];
-
-        // 퀴즈 데이터베이스에서 사용자 정보 가져오기
         $username = $row["user_name"];
-        $sqlUser = "SELECT * FROM users WHERE username = '$username'";
-        $resultUser = $connQuiz->query($sqlUser);
-
-        if ($resultUser->num_rows > 0) {
-            $rowUser = $resultUser->fetch_assoc();
-            $username = $rowUser["user_name"];
-        } else {
-            $username = "???";
-        }
 
         $deleteButton = $isAdmin ? '<button onclick="deleteAnnouncement(' . $announcementId . ')">삭제하기</button>' : '';
     } else {

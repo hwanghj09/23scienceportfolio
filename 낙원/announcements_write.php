@@ -25,10 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     {
         $username = $_SESSION['username'];
     }
-    else
-    {
-        echo "<script>alert('!');</script>";
-    }
     
     // Insert announcement into the database
     $sql = "INSERT INTO announcements (title, content, user_name) VALUES ('$title', '$content', '$username')";
