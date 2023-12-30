@@ -51,6 +51,40 @@ if (isset($_GET['id'])) {
     header("Location: index.php");
     exit();
 }
+
+// 공지사항 수정 처리
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $dbHost = 'svc.sel4.cloudtype.app:32632';
+    $dbUser = 'root';
+    $dbPassword = 'qwaszx77^^';
+    $dbName = 'nagwon';
+
+    // 연결 생성
+    $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
+
+    // 연결 확인
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // POST 데이터에서 제목과 내용 가져오기
+    $updatedTitle = $_POST['title'];
+    $updatedContent = $_POST['content'];
+
+    // 공지사항 업데이트 쿼리 실행
+    $updateSql = "UPDATE announcements SET title='$updatedTitle', content='$updatedContent' WHERE id='$announcementId'";
+
+    if ($conn->query($updateSql) === TRUE) {
+        // 업데이트 후 메인 페이지로 리디렉션
+        header("Location: index.php");
+        exit();
+    } else {
+        echo "Error updating record: " . $conn->error;
+    }
+
+    // 데이터베이스 연결 닫기
+    $conn->close();
+}
 ?>
 
 <!DOCTYPE html>
