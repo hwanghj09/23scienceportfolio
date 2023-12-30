@@ -15,8 +15,7 @@ if (!(isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'])) {
 
 // 수정할 공지사항 세부 정보 가져오기
 if (isset($_GET['id'])) {
-    $announcementId = isset($_GET['id']) ? $_GET['id'] : null;
-    echo "<script>alert('$announcementId');</script>";
+    $announcementId = $_GET['id'];
     $dbHost = 'svc.sel4.cloudtype.app:32632';
     $dbUser = 'root';
     $dbPassword = 'qwaszx77^^';
@@ -70,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // POST 데이터에서 제목과 내용 가져오기
     $updatedTitle = $_POST['title'];
     $updatedContent = $_POST['content'];
-    
+    $announcementId = $_GET['id'];
     // 공지사항 업데이트 쿼리 실행
     $updateSql = "UPDATE announcements SET title='$updatedTitle', content='$updatedContent' WHERE id='$announcementId'";
 
