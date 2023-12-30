@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $updateSql = "UPDATE announcements SET title='$updatedTitle', content='$updatedContent' WHERE id='$announcementId'";
 
     if ($conn->query($updateSql) === TRUE) {
-        // 업데이트 후 메인 페이지로 리디렉션
+        echo "<script>alert('1');</script>";
         header("Location: index.php");
         exit();
     } else {
