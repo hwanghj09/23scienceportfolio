@@ -145,26 +145,24 @@ $result = $conn->query($sql);
         <a onclick="showNotice()">공지사항</a>
         <a onclick="showStudy()">Study</a>
         <a onclick="showPlay()">Play</a>
+        <a onclick="redirectToLogin()">로그인</a>
+        <a onclick="redirectToSignup()">회원가입</a>
         <a href="http://xn--s39aj90b0nb2xw6xh.kr/">시간표</a>
 
         <!-- 공지 작성 버튼 -->
         <?php
         // Check if the user is an admin
         if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
-            echo '<button id="addAnnouncementBtn" onclick="addAnnouncement()">공지 작성</button>';
+            echo '<a id="addAnnouncementBtn" onclick="addAnnouncement()">공지 작성</a>';
         }
         ?>
-
-        <!-- 로그인 및 회원가입 버튼 -->
-        <button onclick="redirectToLogin()">로그인</button>
-        <button onclick="redirectToSignup()">회원가입</button>
+        
     </nav>
     <div id="noticeSection" class="content-section">
         <?php
         while ($row = $result->fetch_assoc()) {
             echo '<div class="card announcement" onclick="readAnnouncement(' . $row['id'] . ')">';
             echo '<h3>' . $row['title'] . '</h3>';
-            echo '<p>' . $row['content'] . '</p>';
             echo '</div>';
         }
         ?>
