@@ -31,7 +31,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    $currentName = $row['name'];
+    $currentName = $row['username'];
 }
 
 // Handle form submissions
@@ -83,7 +83,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <!-- (이하 생략) -->
     <style>
-        /* (기존 스타일 및 코드) */
+        body {
+            font-family: 'Comfortaa', 'Jua', cursive;
+            font-weight: 600;
+            color: white;
+            background-color: #1a1a1a;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #333;
+            padding: 1rem;
+            text-align: center;
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 0 15px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: #2c2c2c;
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* New styles for content sections */
+        .content-section {
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #555;
+            border-radius: 10px;
+        }
 
         /* 추가된 스타일 */
         .settings-section {
