@@ -37,7 +37,7 @@ if (isset($_GET['id'])) {
     $announcementId = $_GET['id'];
 
     // 공지사항 내용을 공지사항 데이터베이스에서 가져오기
-    $sql = "SELECT * FROM announcements WHERE username = '$announcementId'";
+    $sql = "SELECT * FROM announcements WHERE id = '$announcementId'";
     $result = $connAnnouncements->query($sql);
 
     if ($result->num_rows > 0) {
