@@ -33,11 +33,11 @@ session_start();
 $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 
 // Fetch announcement details based on ID
-if (isset($_GET['id'])) {
-    $announcementId = $_GET['id'];
+if (isset($_GET['username'])) {
+    $announcementId = $_GET['username'];
 
     // Fetch announcement content from the announcements_db database
-    $sql = "SELECT * FROM announcements WHERE id = $announcementId";
+    $sql = "SELECT * FROM announcements WHERE username = $announcementId";
     $result = $connAnnouncements->query($sql);
 
     if ($result->num_rows > 0) {
