@@ -53,6 +53,7 @@ if (isset($_GET['id'])) {
 
 // 공지사항 수정 처리
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    echo "<script>alert('adsasd');</script>";
     $dbHost = 'svc.sel4.cloudtype.app:32632';
     $dbUser = 'root';
     $dbPassword = 'qwaszx77^^';
@@ -70,6 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $updatedTitle = $_POST['title'];
     $updatedContent = $_POST['content'];
     $announcementId = $_GET['id'];
+    echo "<script>alert('$announcementId');</script>";
     // 공지사항 업데이트 쿼리 실행
     $updateSql = "UPDATE announcements SET title='$updatedTitle', content='$updatedContent' WHERE id='$announcementId'";
 
