@@ -39,11 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['updateName'])) {
         // Update user's name
         $newName = $_POST['newName'];
-        $updateNameSql = "UPDATE users SET name = '$newName' WHERE username = '$username'";
+        $updateNameSql = "UPDATE users SET username = '$newName' WHERE username = '$username'";
         $conn->query($updateNameSql);
         $currentName = $newName;
         echo '<script>alert("이름이 성공적으로 변경되었습니다.");</script>';
-    } elseif (isset($_POST['updatePassword'])) {
+    } else if (isset($_POST['updatePassword'])) {
         // Update user's password
         $currentPassword = $_POST['currentPassword'];
         $newPassword = $_POST['newPassword'];
