@@ -87,7 +87,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -155,7 +154,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
 </head>
-
 
 <body>
     <h2>공지사항 수정</h2>
