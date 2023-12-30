@@ -151,6 +151,16 @@ $result = $conn->query($sql);
         <button onclick="redirectToLogin()">로그인</button>
         <button onclick="redirectToSignup()">회원가입</button>
     </nav>
+    <div id="noticeSection" class="content-section">
+    <?php
+    while ($row = $result->fetch_assoc()) {
+        echo '<div class="card announcement" onclick="readAnnouncement(' . $row['id'] . ')">';
+        echo '<h3>' . $row['title'] . '</h3>';
+        echo '<p>' . $row['content'] . '</p>';
+        echo '</div>';
+    }
+    ?>
+    </div>
     <div id="studySection" class="content-section" style="display: none;">
         <h2>Study</h2>
         <p>여기에 Study 관련 내용을 넣어주세요.</p>
