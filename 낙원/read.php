@@ -1,13 +1,13 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-$servername = "svc.sel4.cloudtype.app:31934"; // replace with your actual database host
-$username = "root";
-$password = "qwaszx77^^";
-$dbname = "nagwon";
+$dbHost = 'svc.sel4.cloudtype.app:32632';
+$dbUser = 'root';
+$dbPassword = 'qwaszx77^^';
+$dbName = 'nagwon';
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
 
 // Check connection
 if ($conn->connect_error) {
