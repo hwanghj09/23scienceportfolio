@@ -47,8 +47,8 @@ if (isset($_GET['id'])) {
         $createdAt = $row["created_at"];
 
         // Fetch user information from the quiz database
-        $userId = $row["user_id"];
-        $sqlUser = "SELECT * FROM users WHERE id = $userId";
+        $username = $row["user_name"];
+        $sqlUser = "SELECT * FROM users WHERE username = $username";
         $resultUser = $connQuiz->query($sqlUser);
 
         if ($resultUser->num_rows > 0) {
