@@ -14,6 +14,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Start the session
+session_start();
+
 // Fetch announcements from the database
 $sql = "SELECT * FROM announcements ORDER BY created_at DESC";
 $result = $conn->query($sql);
@@ -145,21 +148,26 @@ $result = $conn->query($sql);
         <a href="http://xn--s39aj90b0nb2xw6xh.kr/">시간표</a>
 
         <!-- 공지 작성 버튼 -->
-        <button id="addAnnouncementBtn" onclick="addAnnouncement()">공지 작성</button>
+        <?php
+        // Check if the user is an admin
+        if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
+            echo '<button id="addAnnouncementBtn" onclick="addAnnouncement()">공지 작성</button>';
+        }
+        ?>
 
         <!-- 로그인 및 회원가입 버튼 -->
         <button onclick="redirectToLogin()">로그인</button>
         <button onclick="redirectToSignup()">회원가입</button>
     </nav>
     <div id="noticeSection" class="content-section">
-    <?php
-    while ($row = $result->fetch_assoc()) {
-        echo '<div class="card announcement" onclick="readAnnouncement(' . $row['id'] . ')">';
-        echo '<h3>' . $row['title'] . '</h3>';
-        echo '<p>' . $row['content'] . '</p>';
-        echo '</div>';
-    }
-    ?>
+        <?php
+        while ($row = $result->fetch_assoc()) {
+            echo '<div class="card announcement" onclick="readAnnouncement(' . $row['id'] . ')">';
+            echo '<h3>' . $row['title'] . '</h3>';
+            echo '<p>' . $row['content'] . '</p>';
+            echo '</div>';
+        }
+        ?>
     </div>
     <div id="studySection" class="content-section" style="display: none;">
         <h2>Study</h2>

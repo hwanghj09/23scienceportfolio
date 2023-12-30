@@ -2,6 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Start the session
+session_start();
+
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dbHost = 'svc.sel4.cloudtype.app:32632';
@@ -29,13 +32,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verify the password
         $row = $checkResult->fetch_assoc();
         $hashedPassword = $row['password'];
+        $isAdmin = $row['admin'];
 
         if (password_verify($inputPassword, $hashedPassword)) {
             // Password is correct, start a session
-            session_start();
 
             // Store data in session variables
             $_SESSION['username'] = $inputUsername;
+
+            // Check if the user is an admin and store the info in the session
+            if ($isAdmin) {
+                $_SESSION['isAdmin'] = true;
+            }
 
             // Redirect to the main page or any other secured page
             header("Location: index.php");
@@ -60,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planet: Mango - 로그인</title>
-    <!-- Add your CSS styles or link to external stylesheet here -->
+    <!-- Add your CSS styles or link to an external stylesheet here -->
 </head>
 
 <body>
