@@ -2,17 +2,28 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$dbHost = 'svc.sel4.cloudtype.app:32632';
-$dbUser = 'root';
-$dbPassword = 'qwaszx77^^';
-$dbName = 'nagwon';
+// Database connection for quiz database (user information)
+$dbHostQuiz = 'svc.sel4.cloudtype.app:32632';
+$dbUserQuiz = 'root';
+$dbPasswordQuiz = 'qwaszx77^^';
+$dbNameQuiz = 'quiz';
 
-// Create connection
-$conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
+$connQuiz = new mysqli($dbHostQuiz, $dbUserQuiz, $dbPasswordQuiz, $dbNameQuiz);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($connQuiz->connect_error) {
+    die("Connection failed: " . $connQuiz->connect_error);
+}
+
+// Database connection for announcements_db database (announcement content)
+$dbHostAnnouncements = 'svc.sel4.cloudtype.app:32632';
+$dbUserAnnouncements = 'root';
+$dbPasswordAnnouncements = 'qwaszx77^^';
+$dbNameAnnouncements = 'announcements_db';
+
+$connAnnouncements = new mysqli($dbHostAnnouncements, $dbUserAnnouncements, $dbPasswordAnnouncements, $dbNameAnnouncements);
+
+if ($connAnnouncements->connect_error) {
+    die("Connection failed: " . $connAnnouncements->connect_error);
 }
 
 // Start the session
@@ -24,18 +35,29 @@ $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 // Fetch announcement details based on ID
 if (isset($_GET['id'])) {
     $announcementId = $_GET['id'];
-    $sql = "SELECT announcements.*, users.user_name
-            FROM announcements
-            INNER JOIN users ON announcements.user_id = users.id
-            WHERE announcements.id = $announcementId";
-    $result = $conn->query($sql);
+
+    // Fetch announcement content from the announcements_db database
+    $sql = "SELECT * FROM announcements WHERE id = $announcementId";
+    $result = $connAnnouncements->query($sql);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $title = $row["title"];
         $content = $row["content"];
         $createdAt = $row["created_at"];
-        $username = $row["user_name"];
+
+        // Fetch user information from the quiz database
+        $userId = $row["user_id"];
+        $sqlUser = "SELECT * FROM users WHERE id = $userId";
+        $resultUser = $connQuiz->query($sqlUser);
+
+        if ($resultUser->num_rows > 0) {
+            $rowUser = $resultUser->fetch_assoc();
+            $username = $rowUser["user_name"];
+        } else {
+            $username = "Unknown";
+        }
+
         $deleteButton = $isAdmin ? '<button onclick="deleteAnnouncement(' . $announcementId . ')">삭제하기</button>' : '';
     } else {
         $title = "Not Found";
