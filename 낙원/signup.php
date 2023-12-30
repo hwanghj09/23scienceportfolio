@@ -20,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get data from the form
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $email = $_POST['email'];
 
     // Check if the username is already taken
     $checkQuery = "SELECT * FROM users WHERE username='$username'";
@@ -31,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         // Insert user into the database
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $insertQuery = "INSERT INTO users (username, password, email) VALUES ('$username', '$hashedPassword', '$email')";
+        $insertQuery = "INSERT INTO users (username, password) VALUES ('$username', '$hashedPassword')";
 
         if ($conn->query($insertQuery) === TRUE) {
             echo "<script>window.location.href = 'index.php';</script>";
@@ -65,9 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label for="password">비밀번호:</label>
         <input type="password" id="password" name="password" required>
-
-        <label for="email">이메일:</label>
-        <input type="email" id="email" name="email" required>
 
         <button type="submit">가입하기</button>
     </form>
