@@ -132,6 +132,23 @@ $result = $conn->query($sql);
             cursor: pointer;
             margin-right: 10px;
         }
+        .user-info {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info a {
+            margin-left: 10px;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .user-info a:hover {
+            color: #ccc;
+        }
     </style>
 </head>
 
@@ -142,22 +159,25 @@ $result = $conn->query($sql);
                 <h1>엄청난!</h1>
             </a>
         </div>
+        <div class="user-info">
+            <?php
+            if ($isLoggedIn) {
+                echo '<div>' . $username . '</div>';
+                echo '<a href="settings.php">설정</a>';
+                echo '<a href="logout.php">로그아웃</a>';
+            } else {
+                echo '<a onclick="redirectToLogin()">로그인</a>';
+                echo '<a onclick="redirectToSignup()">회원가입</a>';
+            }
+            ?>
+        </div>
+    </header>
     </header>
 
     <nav>
         <a onclick="showNotice()">공지사항</a>
         <a onclick="showStudy()">Study</a>
         <a onclick="showPlay()">Play</a>
-
-        <!-- 로그인 및 회원가입 버튼 -->
-        <?php
-        if ($isLoggedIn) {
-            echo '<a href="logout.php">로그아웃</a>';
-        } else {
-            echo '<a onclick="redirectToLogin()">로그인</a>';
-            echo '<a onclick="redirectToSignup()">회원가입</a>';
-        }
-        ?>
 
         <a href="http://xn--s39aj90b0nb2xw6xh.kr/">시간표</a>
 
