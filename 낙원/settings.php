@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 $dbHost = 'svc.sel4.cloudtype.app:32632';
 $dbUser = 'root';
 $dbPassword = 'qwaszx77^^';
-$dbName = 'nagwon';
+$dbName = 'quiz';
 
 // Create connection
 $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);

@@ -24,7 +24,10 @@ $isLoggedIn = isset($_SESSION['username']);
 $sql = "SELECT * FROM announcements ORDER BY created_at DESC";
 $result = $conn->query($sql);
 
-$username = $_SESSION['username'];
+if($isLoggedIn)
+{
+    $username = $_SESSION['username'];
+}
 ?>
 
 <!DOCTYPE html>
