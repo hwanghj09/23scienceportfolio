@@ -1,147 +1,139 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Start the session
 session_start();
 
-// Check if the form is submitted
+$host = 'svc.sel4.cloudtype.app:32632';
+$user = 'root';
+$password = 'qwaszx77^^';
+$database = 'quiz';
+
+$conn = new mysqli($host, $user, $password, $database);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $dbHost = 'svc.sel4.cloudtype.app:32632';
-    $dbUser = 'root';
-    $dbPassword = 'qwaszx77^^';
-    $dbName = 'quiz';
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-    // Create connection
-    $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row['password'])) {
+            // 보안 향상: 세션 및 쿠키 보안 적용
+            session_start();
+            $_SESSION['user_id'] = $row['id'];
+            setcookie("user_id", base64_encode($row['id']), time() + (86400 * 30), "/");
+            setcookie("username", base64_encode($row['username']), time() + (86400 * 30), "/");
 
-    // Get data from the form
-    $inputUsername = $_POST['username'];
-    $inputPassword = $_POST['password'];
+            // CSRF 토큰 생성 및 세션에 저장
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
-    // Check if the username exists
-    $checkQuery = "SELECT * FROM users WHERE username='$inputUsername'";
-    $checkResult = $conn->query($checkQuery);
-
-    if ($checkResult->num_rows > 0) {
-        // Verify the password
-        $row = $checkResult->fetch_assoc();
-        $hashedPassword = $row['password'];
-        $isAdmin = $row['admin'];
-
-        if (password_verify($inputPassword, $hashedPassword)) {
-            // Password is correct, start a session
-
-            // Store data in session variables
-            $_SESSION['username'] = $inputUsername;
-
-            // Check if the user is an admin and store the info in the session
-            if ($isAdmin) {
-                $_SESSION['isAdmin'] = 1;
-            }
-
-            // Redirect to the main page or any other secured page
             header("Location: index.php");
             exit();
         } else {
-            echo "Error: Incorrect password.";
+            echo "<script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: '비밀번호가 일치하지 않습니다.',
+                        text: '다시 비밀번호를 입력해주세요.',
+                        confirmButtonText: '확인'
+                    });
+                </script>";
         }
     } else {
-        echo "Error: User not found.";
+        echo "<script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: '존재하지 않는 아이디입니다.',
+                        text: '다른 아이디를 사용해주세요.',
+                        confirmButtonText: '확인'
+                    });
+                </script>";
     }
 
-    // Close the database connection
-    $conn->close();
+    $stmt->close();
 }
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planet: Mango - 로그인</title>
-    <link rel="icon" href="https://i.ibb.co/FgydS5v/mango-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&family=Jua&display=swap" rel="stylesheet">
+    <title>Sign in</title>
     <style>
         body {
-            font-family: 'Comfortaa', 'Jua', cursive;
-            font-weight: 600;
-            color: white;
-            background-color: #1a1a1a;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        form {
-            background-color: #333;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
         }
 
         h2 {
-            color: #fff;
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         label {
             display: block;
-            margin: 10px 0 5px;
-            color: #bbb;
+            margin-bottom: 8px;
+            color: #555;
         }
 
         input {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid #555;
-            border-radius: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             box-sizing: border-box;
-            background-color: #444;
-            color: white;
         }
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
             cursor: pointer;
         }
 
-        button:hover {
+        input[type="submit"]:hover {
             background-color: #45a049;
         }
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
-
 <body>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <h2>로그인</h2>
-        <label for="username">아이디:</label>
-        <input type="text" id="username" name="username" required>
 
-        <label for="password">비밀번호:</label>
+    <h2>Login</h2>
+
+    <form action="" method="post">
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        
+        <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
 
-        <button type="submit">로그인</button>
+        <input type="submit" value="Login">
+        <a href="register.php">Sign up</a>
     </form>
-</body>
 
+</body>
 </html>
