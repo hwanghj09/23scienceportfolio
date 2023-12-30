@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dbHost = 'svc.sel4.cloudtype.app:32632';
     $dbUser = 'root';
     $dbPassword = 'qwaszx77^^';
-    $dbName = 'nagwon';
+    $dbName = 'users';
 
     // Create connection
     $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
