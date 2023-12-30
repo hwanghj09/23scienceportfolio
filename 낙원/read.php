@@ -18,7 +18,7 @@ if ($connQuiz->connect_error) {
 $dbHostAnnouncements = 'svc.sel4.cloudtype.app:32632';
 $dbUserAnnouncements = 'root';
 $dbPasswordAnnouncements = 'qwaszx77^^';
-$dbNameAnnouncements = 'announcements_db';
+$dbNameAnnouncements = 'nagwon';
 
 $connAnnouncements = new mysqli($dbHostAnnouncements, $dbUserAnnouncements, $dbPasswordAnnouncements, $dbNameAnnouncements);
 
