@@ -24,7 +24,7 @@ $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 // Fetch announcement details based on ID
 if (isset($_GET['id'])) {
     $announcementId = $_GET['id'];
-    $sql = "SELECT announcements.*, users.username
+    $sql = "SELECT announcements.*, users.user_name
             FROM announcements
             INNER JOIN users ON announcements.user_id = users.id
             WHERE announcements.id = $announcementId";
@@ -35,7 +35,7 @@ if (isset($_GET['id'])) {
         $title = $row["title"];
         $content = $row["content"];
         $createdAt = $row["created_at"];
-        $username = $row["username"];
+        $username = $row["user_name"];
         $deleteButton = $isAdmin ? '<button onclick="deleteAnnouncement(' . $announcementId . ')">삭제하기</button>' : '';
     } else {
         $title = "Not Found";
