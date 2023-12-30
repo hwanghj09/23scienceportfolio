@@ -169,12 +169,12 @@ $result = $conn->query($sql);
     </div>
     <div id="studySection" class="content-section" style="display: none;">
         <h2>Study</h2>
-        <p>여기에 Study 관련 내용을 넣어주세요.</p>
+        <p></p>
     </div>
 
     <div id="playSection" class="content-section" style="display: none;">
         <h2>Play</h2>
-        <p>여기에 Play 관련 내용을 넣어주세요.</p>
+        <p></p>
     </div>
 
     <script>

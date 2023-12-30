@@ -103,7 +103,7 @@ if (isset($_GET['id'])) {
 <body>
     <header>
         <div class="logo">
-            <a href="home.html">
+            <a href="index.php">
                 <h1>엄청난!</h1>
             </a>
         </div>
