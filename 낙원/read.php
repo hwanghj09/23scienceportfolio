@@ -50,6 +50,7 @@ if (isset($_GET['id'])) {
     $username = "";
     $deleteButton = '';
 }
+$editButton = $isAdmin ? '<button onclick="editAnnouncement(' . $announcementId . ')">글 수정하기</button>' : '';
 ?>
 
 <!DOCTYPE html>
@@ -156,8 +157,15 @@ if (isset($_GET['id'])) {
         <p><?= $content ?></p>
         <p>올라간 날짜: <?= $createdAt ?></p>
         <p>작성자: <?= $username ?></p>
+        <?= $editButton ?>
         <?= $deleteButton ?>
     </div>
+    <script>
+    function editAnnouncement(announcementId) {
+        // Redirect to the edit page with the announcement ID
+        window.location.href = 'edit_announcement.php?id=' + announcementId;
+    }
+</script>
 </body>
 
 </html>

@@ -136,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <header>
         <div class="logo">
-            <a href="index.html">
+            <a href="index.php">
                 <h1>엄청난!</h1>
             </a>
         </div>
