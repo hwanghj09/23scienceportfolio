@@ -6,8 +6,8 @@ ini_set('display_errors', 1);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $servername = "svc.sel4.cloudtype.app:31934"; // replace with your actual database host
     $username = "root";
-    $password = "nagwon";
-    $dbname = "your_database_name"; // replace with your actual database name
+    $password = "qwaszx77^^";
+    $dbname = "nagwon";// replace with your actual database name
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
