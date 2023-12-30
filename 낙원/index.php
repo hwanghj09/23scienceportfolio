@@ -23,6 +23,8 @@ $isLoggedIn = isset($_SESSION['username']);
 // Fetch announcements from the database
 $sql = "SELECT * FROM announcements ORDER BY created_at DESC";
 $result = $conn->query($sql);
+
+$username = $_SESSION['username'];
 ?>
 
 <!DOCTYPE html>
