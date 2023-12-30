@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Check if the user is an admin and store the info in the session
             if ($isAdmin) {
-                $_SESSION['isAdmin'] = true;
+                $_SESSION['isAdmin'] = 1;
             }
 
             // Redirect to the main page or any other secured page
