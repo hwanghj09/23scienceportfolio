@@ -35,9 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $isAdmin = $row['admin'];
 
         if (password_verify($inputPassword, $hashedPassword)) {
-            // Password is correct, start a session
-
-            // Store data in session variables
             $_SESSION['username'] = $inputUsername;
 
             // Check if the user is an admin and store the info in the session

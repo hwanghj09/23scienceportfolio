@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $insertQuery = "INSERT INTO users (username, password) VALUES ('$username', '$hashedPassword')";
 
         if ($conn->query($insertQuery) === TRUE) {
-            echo "<script>window.location.href = 'index.php';</script>";
+            echo "<script>window.location.href = 'login.php';</script>";
             exit();
         } else {
             echo "Error: " . $insertQuery . "<br>" . $conn->error;
