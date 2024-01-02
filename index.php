@@ -309,6 +309,17 @@ $conn->close();
                 openPage('quiz.php');
             }
         }
+        function checkUsername() {
+            // Make an AJAX request to check_cookie.php
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText); // Display the result using an alert (you can modify this part)
+                }
+            };
+            xhr.open("GET", "check_cookie.php", true);
+            xhr.send();
+        }
 
     </script>
 </head>
