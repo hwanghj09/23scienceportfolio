@@ -1,3 +1,35 @@
+<?php
+// 데이터베이스 연결 정보 설정
+$dbHost = 'svc.sel4.cloudtype.app:32632';
+$dbUser = 'root';
+$dbPassword = 'qwaszx77^^';
+$dbName = 'quiz';
+
+$conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// 세션 시작
+session_start();
+
+// 사용자 ID와 admin 여부 가져오기
+$userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
+if ($userId) {
+    // 사용자가 로그인한 경우, 데이터베이스에서 admin 여부 확인
+    $sql = "SELECT admin FROM users WHERE id = $userId";
+    $result = $conn->query($sql);
+
+    if ($result) {
+        $row = $result->fetch_assoc();
+        $isAdmin = $row['admin'];
+    }
+}
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -142,6 +174,21 @@
             .sidebutton {
                 margin-bottom: 20px;
             }
+            .admin-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .admin-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
         }
 
     </style>
@@ -155,18 +202,22 @@
         }
 
         function checkLoginStatus() {
-            // 쿠키에서 사용자 아이디 가져오기
             const userIdCookie = getCookie("user_id");
 
-            // 버튼 생성
             const sidebarContent = document.querySelector('.sidebar-content');
-            sidebarContent.innerHTML = ''; // 기존 내용 초기화
+            sidebarContent.innerHTML = '';
 
             if (userIdCookie) {
                 createButton('Ranking', 'ranking');
                 createButton('Sign Out', 'signOut');
                 createButton('Delete Account', 'deleteAccount');
                 createButton('Experiment', 'experiment');
+
+                <?php
+                if ($isAdmin) {
+                    echo "createButton('계정 관리', 'account');";
+                }
+                ?>
             } else {
                 createButton('Login', 'login');
                 createButton('Sign Up', 'register');
@@ -181,14 +232,19 @@
             button.onclick = function () {
                 if (action === 'deleteAccount') {
                     confirmDeleteAccount();
-                }else if (action==='experiment')
-                {
-                    window.open('https://hwanghj09.github.io',target="_blank")
+                } else if (action === 'experiment') {
+                    window.open('https://hwanghj09.github.io', '_blank');
                 } else {
                     openPage(action + '.php');
                 }
             };
             document.querySelector('.sidebar-content').appendChild(button);
+        }
+
+        // 추가: "계정 관리" 버튼 클릭 시의 동작
+        function accountManagement() {
+            // 원하는 동작 수행
+            console.log("Account Management clicked!");
         }
 
         function openPage(page) {
@@ -252,18 +308,6 @@
                 // 로그인 상태일 때 퀴즈 페이지로 이동
                 openPage('quiz.php');
             }
-        }
-
-        function checkUsername() {
-            // Make an AJAX request to check_cookie.php
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert(xhr.responseText); // Display the result using an alert (you can modify this part)
-                }
-            };
-            xhr.open("GET", "check_cookie.php", true);
-            xhr.send();
         }
 
     </script>

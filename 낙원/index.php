@@ -1,31 +1,26 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
 $dbHost = 'svc.sel4.cloudtype.app:32632';
 $dbUser = 'root';
 $dbPassword = 'qwaszx77^^';
 $dbName = 'nagwon';
 
-// Create connection
 $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Start the session
 session_start();
-
-// Check if the user is logged in
 $isLoggedIn = isset($_SESSION['username']);
+$isAdmin = $isLoggedIn && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'];
 
-// Fetch announcements from the database
 $sql = "SELECT * FROM announcements ORDER BY created_at DESC";
 $result = $conn->query($sql);
 
-if($isLoggedIn)
-{
+if ($isLoggedIn) {
     $username = $_SESSION['username'];
 }
 ?>
@@ -103,8 +98,6 @@ if($isLoggedIn)
             border-radius: 10px;
             margin-bottom: 20px;
         }
-
-        /* New styles for content sections */
         .content-section {
             padding: 20px;
             max-width: 600px;
@@ -126,8 +119,6 @@ if($isLoggedIn)
         .announcement h3 {
             margin-bottom: 0;
         }
-
-        /* Added styles for the button */
         #addAnnouncementBtn {
             background-color: #4CAF50;
             color: white;
@@ -177,23 +168,21 @@ if($isLoggedIn)
             ?>
         </div>
     </header>
-    </header>
 
     <nav>
         <a onclick="showNotice()">공지사항</a>
         <a onclick="showStudy()">Study</a>
         <a onclick="showPlay()">Play</a>
-
+        
         <a href="http://xn--s39aj90b0nb2xw6xh.kr/">시간표</a>
-
-        <!-- 공지 작성 버튼 -->
         <?php
-        // Check if the user is an admin
         if ($isLoggedIn && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
             echo '<a id="addAnnouncementBtn" onclick="addAnnouncement()">공지 작성</a>';
+            echo '';
         }
         ?>
     </nav>
+
     <div id="noticeSection" class="content-section">
         <?php
         while ($row = $result->fetch_assoc()) {
@@ -203,6 +192,7 @@ if($isLoggedIn)
         }
         ?>
     </div>
+
     <div id="studySection" class="content-section" style="display: none;">
         <h2>Study</h2>
         <p></p>
@@ -236,20 +226,10 @@ if($isLoggedIn)
             window.location.href = 'read.php?id=' + id;
         }
 
-        // Function to add announcement
-        function addAnnouncement() {
-            window.location.href = 'announcements_write.php';
-        }
-        function addAnnouncement() {
-        window.location.href = 'announcements_write.php';
-        }
-
-        // Function to redirect to login page
         function redirectToLogin() {
             window.location.href = 'login.php';
         }
 
-        // Function to redirect to signup page
         function redirectToSignup() {
             window.location.href = 'signup.php';
         }
