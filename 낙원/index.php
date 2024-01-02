@@ -161,6 +161,9 @@ if ($isLoggedIn) {
                 echo '<div>' . $username . '</div>';
                 echo '<a href="settings.php">설정</a>';
                 echo '<a href="logout.php">로그아웃</a>';
+                if ($isLoggedIn && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']) {
+                    echo '<a id="adminPageBtn" href="admin.php">관리자 페이지</a>';
+                }                
             } else {
                 echo '<a onclick="redirectToLogin()">로그인</a>';
                 echo '<a onclick="redirectToSignup()">회원가입</a>';
@@ -227,12 +230,18 @@ if ($isLoggedIn) {
         }
 
         function redirectToLogin() {
-            window.location.href = 'login.php';
+        window.location.href = 'login.php';
         }
 
         function redirectToSignup() {
             window.location.href = 'signup.php';
         }
+
+        // 추가: 관리자 페이지로 이동
+        document.getElementById('adminPageBtn').addEventListener('click', function (event) {
+            event.preventDefault();
+            window.location.href = 'admin.php';
+        });
     </script>
 </body>
 
