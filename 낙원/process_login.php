@@ -4,7 +4,7 @@ ini_set("display_errors", 1);
 
 $servername = "svc.sel4.cloudtype.app:32632";
 $username1 = "root";
-$password = "qwaszx77^^";
+$password1 = "qwaszx77^^";
 $dbname = "ip";
 
 // 사용자가 입력한 데이터 받아오기
@@ -13,7 +13,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
     $password = $_POST['password'];
 
     // 데이터베이스 연결
-    $conn = new mysqli($servername, $username1, $password, $dbname);
+    $conn = new mysqli($servername, $username1, $password1, $dbname);
 
     // 연결 확인
     if ($conn->connect_error) {
